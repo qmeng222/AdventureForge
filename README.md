@@ -32,8 +32,11 @@
    - Create and install a kernel specifically for the virtual environment: `python -m ipykernel install --user --name=myenv`
 4. Install libraries/packages:
    - Install the software development kit (SDK): `pip install stability_sdk`
+   - install OpenAI: `pip install openai`
    - Install the python-dotenv package: `pip install python_dotenv`
    - Install the pillow package that provides the PIL (Python Imaging Library) module to work with images: `pip install pillow`
+   - Install Flask: `pip install Flask`
+   - Start the Flask development server in debug mode: `flask run --debug`
 5. Generate a snapshot of the installed packages and their versions to the requirements.txt file (or overwrite the txt file): `pip freeze > requirements.txt`, so others can install all the packages and their respective versions specified in the requirements.txt file with `pip install -r requirements.txt`
 
 ## Resources:
