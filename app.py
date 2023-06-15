@@ -11,6 +11,11 @@ from flask import Flask, render_template, request
 from openai.error import APIConnectionError, APIError, RateLimitError, ServiceUnavailableError
 from tenacity import retry, retry_if_exception_type, retry_if_not_result, stop_after_attempt
 
+from dotenv import dotenv_values
+
+config = dotenv_values(".env")
+STABILITY_API_KEY = config["STABILITY_API_KEY"]
+
 load_dotenv()
 
 openai.api_key = os.environ["OPENAI_API_KEY"]
