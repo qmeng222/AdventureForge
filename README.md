@@ -32,14 +32,12 @@
    - Create and install a kernel specifically for the virtual environment: `python -m ipykernel install --user --name=myenv`
 4. Install libraries/packages:
    - Install the software development kit (SDK): `pip install stability_sdk`
-   - Install the OpenAI package and the python-dotenv package:
-     ```
-     pip install openai
-     pip install python_dotenv
-     ```
-     or simply `pip install openai python_dotenv` altogether!
+   - Install the python-dotenv package: `pip install python_dotenv`
+   - Install the pillow package that provides the PIL (Python Imaging Library) module to work with images: `pip install pillow`
 5. Generate a snapshot of the installed packages and their versions to the requirements.txt file (or overwrite the txt file): `pip freeze > requirements.txt`, so others can install all the packages and their respective versions specified in the requirements.txt file with `pip install -r requirements.txt`
 
 ## Resources:
 
-1. [Stability AI | Text-to-Image](https://platform.stability.ai/docs/features/text-to-image?tab=python)
+1. [stability.ai API | Documentation](https://platform.stability.ai/docs/features)
+2. [Text-to-image](https://platform.stability.ai/docs/features/text-to-image)
+3. [DreamStudio](https://beta.dreamstudio.ai/generate)
