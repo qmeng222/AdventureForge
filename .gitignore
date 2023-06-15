@@ -1,5 +1,6 @@
 # files:
 .env
+*.png
 
 # folders:
 /.ipynb_checkpoints

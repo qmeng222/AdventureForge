@@ -39,5 +39,5 @@
 ## Resources:
 
 1. [stability.ai API | Documentation](https://platform.stability.ai/docs/features)
-2. [Text-to-image](https://platform.stability.ai/docs/features/text-to-image)
+2. [Text-to-image via gRPC API](https://platform.stability.ai/docs/features/text-to-image)
 3. [DreamStudio](https://beta.dreamstudio.ai/generate)
