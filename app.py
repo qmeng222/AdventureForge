@@ -8,13 +8,18 @@ import openai
 import requests
 from dotenv import load_dotenv
 from flask import Flask, render_template, request
-from openai.error import APIConnectionError, APIError, RateLimitError, ServiceUnavailableError
-from tenacity import retry, retry_if_exception_type, retry_if_not_result, stop_after_attempt
-
-from dotenv import dotenv_values
-
-config = dotenv_values(".env")
-STABILITY_API_KEY = config["STABILITY_API_KEY"]
+from openai.error import (
+    APIConnectionError,
+    APIError,
+    RateLimitError,
+    ServiceUnavailableError,
+)
+from tenacity import (
+    retry,
+    retry_if_exception_type,
+    retry_if_not_result,
+    stop_after_attempt,
+)
 
 load_dotenv()
 
@@ -25,8 +30,8 @@ logging.basicConfig(level=logging.DEBUG)
 
 app = Flask(
     __name__,
-    static_url_path='',
-    static_folder='static',
+    static_url_path="",
+    static_folder="static",
 )
 
 
@@ -76,7 +81,11 @@ def get_caption_from_chat_response(chat_response_object: Mapping) -> str:
     """
     :raises: AttributeError if no caption is found
     """
-    return re.search(r"Caption:(.*)(?:\n|$)", chat_response_object["content"]).group(1).strip()
+    return (
+        re.search(r"Caption:(.*)(?:\n|$)", chat_response_object["content"])
+        .group(1)
+        .strip()
+    )
 
 
 def is_valid_cyoa(chat_response_object) -> bool:
@@ -93,15 +102,21 @@ def is_valid_cyoa(chat_response_object) -> bool:
 
 @retry(
     stop=stop_after_attempt(3),
-    retry=retry_if_not_result(is_valid_cyoa) | retry_if_exception_type(
-        APIConnectionError) | retry_if_exception_type(APIError) | retry_if_exception_type(RateLimitError),
+    retry=retry_if_not_result(is_valid_cyoa)
+    | retry_if_exception_type(APIConnectionError)
+    | retry_if_exception_type(APIError)
+    | retry_if_exception_type(RateLimitError),
 )
 def generate_cyoa_next_message(messages) -> Mapping:
     messages_payload = [{"role": "system", "content": system_directive}]
 
     # Filter out our image_url we sneak into their API call
-    messages_payload.extend([{k: v for k, v in message.items(
-    ) if k != "cyoa_image_base64"} for message in messages])
+    messages_payload.extend(
+        [
+            {k: v for k, v in message.items() if k != "cyoa_image_base64"}
+            for message in messages
+        ]
+    )
 
     print("************************************")
     print("************************************")
@@ -133,7 +148,8 @@ def generate_image_base64_dalle(image_caption, dimensions=(512, 512)):
         base64_image = image_response["data"][0]["b64_json"]
     except openai.InvalidRequestError as e:
         log.warn(
-            f"Skipping image generation. Image prompt was rejected by OpenAI: {e.args}")
+            f"Skipping image generation. Image prompt was rejected by OpenAI: {e.args}"
+        )
         return None
     except (APIConnectionError, APIError, RateLimitError, ServiceUnavailableError) as e:
         # We don't retry these because the story is more important than the images. Don't slow the story down
@@ -154,8 +170,11 @@ def generate_image_base64_stability(image_caption, dimensions=(512, 512)):
 
     response = requests.post(
         f"{STABILITY_API_HOST}/v1/generation/{STABILITY_ENGINE_ID}/text-to-image",
-        headers={"Content-Type": "application/json", "Accept": "application/json",
-                 "Authorization": f"Bearer {STABILITY_API_KEY}"},
+        headers={
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "Authorization": f"Bearer {STABILITY_API_KEY}",
+        },
         json={
             "text_prompts": [{"text": image_caption[:1000]}],
             "cfg_scale": 7,
@@ -168,7 +187,8 @@ def generate_image_base64_stability(image_caption, dimensions=(512, 512)):
     )
     if response.status_code != 200:
         log.warn(
-            f"Skipping image generation. Stability response was {response.status_code}: {response.text}")
+            f"Skipping image generation. Stability response was {response.status_code}: {response.text}"
+        )
         return None
     else:
         data = response.json()
@@ -204,15 +224,15 @@ def cyoa():
 
     # image_base64 = generate_image_base64_dalle(image_caption)
     image_base64 = generate_image_base64_stability(
-        "A first person view in the style of detailed fantasy art: " + image_caption)
+        "A first person view in the style of detailed fantasy art: " + image_caption
+    )
 
     if image_base64:
         # ...
         # Optionally, store the image locally
         # ...
         messages[-1]["cyoa_image_base64"] = image_base64
-        log.info(
-            f"Image generated and saved in {time.time() - t_image} seconds")
+        log.info(f"Image generated and saved in {time.time() - t_image} seconds")
 
     return {"messages": messages}
 
