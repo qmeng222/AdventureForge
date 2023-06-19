@@ -16,7 +16,7 @@
   - Front-end: HTML, CSS, JavaScript
   - Version control: Git, GitHub
 - Overview:
-  ![project overview](/abc.png)
+  [project demo](https://recordit.co/6GOJ3TZHA9)
 
 ## Setup:
 
@@ -37,8 +37,9 @@
    - Install the pillow package that provides the PIL (Python Imaging Library) module to work with images: `pip install pillow`
    - Install Flask: `pip install Flask`
    - Install the tenacity library for retrying operations: `pip install tenacity`
-5. Start the Flask development server in debug mode: `flask run --debug`
-6. Generate a snapshot of the installed packages and their versions to the requirements.txt file (or overwrite the txt file): `pip freeze > requirements.txt`, so others can install all the packages and their respective versions specified in the requirements.txt file with `pip install -r requirements.txt`
+   - Install PyAudio following the [instruction](https://pypi.org/project/PyAudio/#:~:text=INSTALLATION)
+5. Generate a snapshot of the installed packages and their versions to the requirements.txt file (or overwrite the txt file): `pip freeze > requirements.txt`, so others can install all the packages and their respective versions specified in the requirements.txt file with `pip install -r requirements.txt`
+6. Start the Flask development server in debug mode: `flask run --debug`
 
 ## Resources:
 

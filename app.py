@@ -21,8 +21,7 @@ from tenacity import (
     stop_after_attempt,
 )
 
-load_dotenv()
-
+load_dotenv(".env")
 openai.api_key = os.environ["OPENAI_API_KEY"]
 
 log = logging.getLogger(__name__)
