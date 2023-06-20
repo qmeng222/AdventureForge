@@ -15,8 +15,8 @@
   - Web development framework: Flask
   - Front-end: HTML, CSS, JavaScript
   - Version control: Git, GitHub
-- Overview:
-  [project demo](https://recordit.co/6GOJ3TZHA9)
+- Project demo:
+  ![Project demo](/AdventureForge_overview.gif)
 
 ## Setup:
 
